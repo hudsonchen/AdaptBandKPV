@@ -5,6 +5,7 @@ import numpy as np
 import ray
 import logging
 import torch
+import shutil
 
 from src.utils import grid_search_dict
 from src.models.DFIV.trainer import DFIVTrainer
@@ -72,6 +73,8 @@ def experiments(alg_name: str,
         one_save_dir = one_save_dir.joinpath(alg_name + '__' + dump_name)
         one_dump_dir = dump_dir.joinpath(dump_name)
         os.mkdir(one_dump_dir)
+        if os.path.exists(one_save_dir):
+            shutil.rmtree(one_save_dir)  # Deletes existing folder
         os.mkdir(one_save_dir)
         tasks = [remote_run.remote(alg_name, data_param, train_config,
                                    use_gpu, one_dump_dir, idx, verbose) for idx in range(n_repeat)]
