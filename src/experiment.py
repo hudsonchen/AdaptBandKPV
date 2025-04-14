@@ -72,10 +72,10 @@ def experiments(alg_name: str,
         one_save_dir = dump_dir.parent.parent / "results"
         one_save_dir = one_save_dir.joinpath(alg_name + '__' + dump_name)
         one_dump_dir = dump_dir.joinpath(dump_name)
-        os.mkdir(one_dump_dir)
+        os.mkdir(one_dump_dir, exist_ok=True)
         if os.path.exists(one_save_dir):
             shutil.rmtree(one_save_dir)  # Deletes existing folder
-        os.mkdir(one_save_dir)
+        os.mkdir(one_save_dir, exist_ok=True)
         tasks = [remote_run.remote(alg_name, data_param, train_config,
                                    use_gpu, one_dump_dir, idx, verbose) for idx in range(n_repeat)]
         res = ray.get(tasks)
