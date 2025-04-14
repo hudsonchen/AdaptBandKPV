@@ -8,11 +8,20 @@ from shutil import copyfile, make_archive
 import os
 from os import PathLike
 import datetime
-
+import pwd
+import sys
 
 from src.utils.custom_logging import configure_logger
 from src.experiment import experiments
 
+if pwd.getpwuid(os.getuid())[0] == 'zongchen':
+    os.chdir('/home/zongchen/DeepFeatureIV/')
+    sys.path.append('/home/zongchen/DeepFeatureIV/')
+elif pwd.getpwuid(os.getuid())[0] == 'ucabzc9':
+    os.chdir('/home/ucabzc9/Scratch/DeepFeatureIV/')
+    sys.path.append('/home/ucabzc9/Scratch/DeepFeatureIV/')
+else:
+    pass
 
 DATA_DIR = Path.cwd().joinpath('data')
 DUMP_DIR = Path.cwd().joinpath('dumps')

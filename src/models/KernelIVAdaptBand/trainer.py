@@ -127,12 +127,18 @@ class KernelIVAdaptBandTrainer:
             KO1O2_stage2 = KernelIVAdaptBandModel.cal_gauss(O1, O2, gammaO_stage2)
             KO2O2_stage2 = KernelIVAdaptBandModel.cal_gauss(O2, O2, gammaO_stage2)
 
+            if verbose > 0:
+                logger.info("start stage1 tuning")
             if isinstance(self.lambda1, list):
                 lambda1 = 10 ** np.linspace(self.lambda1[0], self.lambda1[1], 50)
                 J = self.stage1_tuning(KX1X1, KX1X2, KZ1Z1, KO1O1_stage1, KZ1Z2, KO1O2_stage1, lambda1)
             else:
                 J = np.linalg.solve(np.multiply(KZ1Z1, KO1O1_stage1) + M * self.lambda1 * np.eye(M), np.multiply(KZ1Z2, KO1O2_stage1))
-            
+            if verbose > 0:
+                logger.info("end stage1 tuning")
+
+            if verbose > 0:
+                logger.info("start stage2 tuning")
             if isinstance(self.lambda2, list):
                 lambda2 = 10 ** np.linspace(self.lambda2[0], self.lambda2[1], 50)
                 feature_2 = np.multiply(KX1X1.dot(J), KO1O2_stage2)
@@ -142,6 +148,9 @@ class KernelIVAdaptBandTrainer:
                 feature_2 = np.multiply(KX1X1.dot(J), KO1O2_stage2)
                 part2 = np.linalg.solve(np.multiply(J.T.dot(KX1X1.dot(J)), KO2O2_stage2) + N * lambda2 * np.eye(N), Y2)
                 Y_hat = feature_2.dot(part2)
+            if verbose > 0:
+                logger.info("end stage2 tuning")
+            
             # logger.info(f"Yhat: {Y_hat[:5].T}")
             # logger.info(f"Y1: {Y1[:5].T}")
             eta_dict[eta]['Y_hat'] = Y_hat
@@ -177,7 +186,8 @@ class KernelIVAdaptBandTrainer:
 
     def stage2_tuning(self, feature_2, J, KX1X1, KO2O2, Y1, Y2, lambda2):
         N = feature_2.shape[1]
-        alpha_list = [np.linalg.solve(np.multiply(J.T.dot(KX1X1.dot(J)), KO2O2) + N * lam2 * np.eye(N), Y2) for lam2 in lambda2]
+        JKX1X1JO2O2 = np.multiply(KX1X1.dot(J), KO2O2)
+        alpha_list = [np.linalg.solve(JKX1X1JO2O2 + N * lam2 * np.eye(N), Y2) for lam2 in lambda2]
         score = [np.linalg.norm(Y1 - feature_2.dot(alpha)) for alpha in alpha_list]
         Y_hat = feature_2.dot(alpha_list[np.argmin(score)])
         return lambda2[np.argmin(score)], Y_hat
