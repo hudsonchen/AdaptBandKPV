@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: KIV",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "/home/zongchen/miniconda3/envs/proxy/bin/python",
+            "args": ["~/DeepFeatureIV/final_configs/kiv_low_dim/configs.json", "kiv"],
+        },
+        {
+            "name": "Python: KIVAdaptBand",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": true,
+            "python": "/home/zongchen/miniconda3/envs/proxy/bin/python",
+            "args": ["~/DeepFeatureIV/final_configs/kivadaptband_low_dim/configs.json", "kivadaptband"],
+        },
+    ]
+}
