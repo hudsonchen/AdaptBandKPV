@@ -30,4 +30,4 @@ date
 which pip
 which python
 
-python /home/ucabzc9/Scratch/AdaptBandKPV/main.py $JOB_PARAMS
+python /home/ucabzc9/Scratch/DeepFeatureIV/main.py $JOB_PARAMS
