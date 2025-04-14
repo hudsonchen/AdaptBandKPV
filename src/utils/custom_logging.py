@@ -41,7 +41,7 @@ def configure_logger(logger_name: str,
         log_dir = Path(log_dir)
         if log_dir.exists():
             shutil.rmtree(log_dir)
-        log_dir.mkdir(parents=True)
+        log_dir.mkdir(parents=True, exist_ok=True)
         log_filename = str(log_dir.joinpath('text_log.txt'))
         file_handler = logging.FileHandler(log_filename)
         file_handler.setLevel(logging.INFO)

@@ -21,7 +21,8 @@ elif pwd.getpwuid(os.getuid())[0] == 'ucabzc9':
     os.chdir('/home/ucabzc9/Scratch/DeepFeatureIV/')
     sys.path.append('/home/ucabzc9/Scratch/DeepFeatureIV/')
 else:
-    pass
+    os.chdir('/home/ucabzc9/Scratch/DeepFeatureIV/')
+    sys.path.append('/home/ucabzc9/Scratch/DeepFeatureIV/')
 
 DATA_DIR = Path.cwd().joinpath('data')
 DUMP_DIR = Path.cwd().joinpath('dumps')
