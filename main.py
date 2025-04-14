@@ -53,7 +53,7 @@ def main(ctx, config_path, debug):
 
     foldername = str(datetime.datetime.now().strftime("%m-%d-%H-%M-%S"))
     dump_dir = DUMP_DIR.joinpath(foldername)
-    os.mkdir(dump_dir)
+    os.mkdir(dump_dir, exist_ok=True)
     with open(config_path) as f:
         config = json.load(f)
     ctx.obj["data_dir"] = dump_dir
